@@ -1,4 +1,4 @@
-import { MediumType } from "@/types/medium-type.types";
+import { MediumType } from "@/types/medium-type.type";
 
 export const getMediumTypes = async (): Promise<MediumType[]> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/MediumType`);
