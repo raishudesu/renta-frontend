@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { getMediumTypes } from "@/data-access/medium-type";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +27,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const mediumTypes = await getMediumTypes();
+  // const mediumTypes = await getMediumTypes();
+  const session = await getServerSession(authOptions);
 
-  console.log("Medium Types:", mediumTypes);
+  // console.log("Medium Types:", mediumTypes);
+  console.log(session);
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <body

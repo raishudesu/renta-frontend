@@ -29,6 +29,10 @@ export interface User {
 }
 
 export interface UserLoginResponse {
-  user: User;
+  message: string;
+  token: string;
+
+  email: string;
+  id: string;
   roles: Roles[];
 }
