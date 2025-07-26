@@ -6,4 +6,5 @@ export const vehicleCreationSchema = z.object({
   color: z.string(),
   description: z.string(),
   ownerId: z.string(),
+  imageLinks: z.array(z.string()).optional(),
 });
