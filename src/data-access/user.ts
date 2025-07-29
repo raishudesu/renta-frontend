@@ -12,7 +12,8 @@ export const loginUser = async (
   });
 
   if (!res.ok) {
-    throw new Error("Authentication failed");
+    const errorText = await res.text();
+    throw new Error(errorText || "Authentication failed");
   }
 
   const data: UserLoginResponse = await res.json();

@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { AuthProvider } from "@/providers/session-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default async function RootLayout({
           >
             <div className="flex-1">{children}</div>
           </ThemeProvider>
+          <Toaster />
         </AuthProvider>
       </body>
     </html>

@@ -50,7 +50,7 @@ const LoginForm = () => {
     try {
       const res = await signIn("user", {
         email: values.email,
-        plainTextPassword: values.password,
+        password: values.password,
         redirect: false,
       });
 
@@ -61,24 +61,30 @@ const LoginForm = () => {
         //   return;
         // }
 
-        toast("Oops! Something went wrong.", {
-          description: res?.error,
+        toast.error("Oops! Something went wrong.", {
+          description: res.error,
+          richColors: true,
         });
+
+        console.error("Login error:", res.error);
         return;
       }
 
       form.reset();
 
-      toast("Logged in successfully", {
+      toast.success("Logged in successfully", {
         description: "Welcome Aboard!",
+        richColors: true,
       });
 
-      router.replace("/dashboard");
+      router.replace("/");
     } catch (error) {
-      console.error(error);
-      toast("Something went wrong", {
+      toast.error("Something went wrong", {
+        richColors: true,
         description: `Try again later. Error: ${error}`,
       });
+
+      console.error(error);
     }
   };
 
@@ -110,7 +116,7 @@ const LoginForm = () => {
                         <Mail className="h-4 w-4 text-muted-foreground" />
                       </div>
                       <Input
-                        placeholder="e.g fundr@email.com"
+                        placeholder="e.g johndoe@email.com"
                         className="pl-9"
                         {...field}
                         disabled={form.formState.isSubmitting}
