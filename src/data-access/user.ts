@@ -1,5 +1,7 @@
+import { authOptions } from "@/lib/auth";
 import { userLoginSchema, userRegistrationSchema } from "@/schemas/user.schema";
-import { UserLoginResponse } from "@/types/user.type";
+import { User, UserLoginResponse } from "@/types/user.type";
+import { getServerSession } from "next-auth";
 import z from "zod";
 
 export const loginUser = async (
@@ -36,4 +38,28 @@ export const registerUser = async (
 
   // No need to parse response body since API returns no content
   return;
+};
+
+export const getAllUsers = async (): Promise<User[]> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.token) {
+    throw new Error("Unauthorized: No session or access token found");
+  }
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/User`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.user.token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "Failed to fetch users");
+  }
+
+  const data: User[] = await res.json();
+  return data;
 };
