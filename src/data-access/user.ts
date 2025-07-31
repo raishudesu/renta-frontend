@@ -33,7 +33,8 @@ export const registerUser = async (
   });
 
   if (!res.ok) {
-    throw new Error("Registration failed");
+    const errorText = await res.text();
+    throw new Error(errorText || "Registration failed");
   }
 
   // No need to parse response body since API returns no content
