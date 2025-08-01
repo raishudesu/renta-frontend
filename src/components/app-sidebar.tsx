@@ -1,11 +1,4 @@
-import {
-  Car,
-  HandCoins,
-  LayoutDashboard,
-  NotebookPen,
-  PackageSearch,
-  Settings,
-} from "lucide-react";
+import { Car, LayoutDashboard, NotebookPen, Settings } from "lucide-react";
 
 import {
   Sidebar,

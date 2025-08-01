@@ -9,8 +9,8 @@ export interface Vehicle {
   description: string;
   ownerId: string;
   createdAt: Date;
+  imagePreSignedUrl?: string | null;
   vehicleBookingRecords: Booking[];
-  vehicleImages: VehicleImage[];
 }
 
 export interface VehicleImage {
