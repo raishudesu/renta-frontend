@@ -2,8 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { LayoutDashboard } from "lucide-react";
 
-const Header = () => {
+const Header = async () => {
+  const session = await getServerSession(authOptions);
   return (
     <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -32,10 +36,22 @@ const Header = () => {
           >
             Pricing
           </Link>
-          <Button variant="outline" asChild>
-            <Link href={"/login"}>Sign In</Link>
-          </Button>
-          <Button>Get Started</Button>
+          {session ? (
+            <Button asChild variant="outline" className="bg-background">
+              <Link href={"/dashboard"}>
+                My Dashboard <LayoutDashboard />
+              </Link>
+            </Button>
+          ) : (
+            <>
+              <Button variant="outline" asChild>
+                <Link href={"/login"}>Sign In</Link>
+              </Button>
+              <Button asChild>
+                <Link href={"/register"}>Get Started</Link>
+              </Button>
+            </>
+          )}
         </nav>
       </div>
     </header>

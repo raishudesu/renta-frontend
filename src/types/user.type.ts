@@ -21,6 +21,7 @@ export interface User {
   lockoutEnabled: boolean;
   accessFailedCount: number;
   businessCoordinatesString: string;
+  businessName: string;
   firstName: string;
   lastName: string;
   userBookings: Booking[];
