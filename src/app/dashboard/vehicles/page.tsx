@@ -11,8 +11,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { getVehiclesByUserId } from "@/data-access/vehicle";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import VehicleCard from "@/components/vehicle-card";
 
 export default async function VehiclesPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user.id) {
+    redirect("/login");
+  }
+
+  const vehicles = await getVehiclesByUserId(session?.user.id);
+
   return (
     <div className="w-full flex flex-col gap-4">
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -55,6 +68,15 @@ export default async function VehiclesPage() {
             </div>
           </div>
         </div>
+        {vehicles.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {vehicles.map((vehicle, index) => (
+              <VehicleCard key={index} vehicle={vehicle} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No vehicles found.</p>
+        )}
       </div>
     </div>
   );

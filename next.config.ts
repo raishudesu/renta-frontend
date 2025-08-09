@@ -26,6 +26,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "renta-s3.s3.ap-southeast-1.amazonaws.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

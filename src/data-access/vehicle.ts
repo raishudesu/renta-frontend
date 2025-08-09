@@ -37,12 +37,24 @@ export const getVehicleById = async (id: string): Promise<Vehicle> => {
 export const getVehiclesByUserId = async (
   userId: string
 ): Promise<Vehicle[]> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.token) {
+    throw new Error("Unauthorized: No session or access token found");
+  }
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/Vehicle/user/${userId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/Vehicle/user/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session.user.token}`,
+      },
+    }
   );
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch vehicles for user with id ${userId}`);
+    const errorText = await res.text();
+    throw new Error(errorText || "Failed to fetch vehicles");
   }
 
   return res.json();
