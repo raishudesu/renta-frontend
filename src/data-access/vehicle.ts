@@ -93,6 +93,8 @@ export const createVehicle = async (
     body: formData,
   });
 
+  console.log(res);
+
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || "Failed to create vehicle");
@@ -119,12 +121,25 @@ export const updateVehicle = async (
 };
 
 export const deleteVehicle = async (id: string): Promise<void> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.token) {
+    throw new Error("Unauthorized: No session or access token found");
+  }
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Vehicle/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${session.user.token}`,
+    },
   });
 
+  console.log(res);
+
   if (!res.ok) {
-    throw new Error(`Failed to delete vehicle with id ${id}`);
+    const errorText = await res.text();
+    console.log(errorText);
+    throw new Error(errorText || `Failed to delete vehicle with id ${id}`);
   }
 
   return;

@@ -21,3 +21,7 @@ export const vehicleCreationSchema = z.object({
     .max(20, "Plate number cannot exceed 20 characters"),
   vehicleImageFile: z.file().optional(),
 });
+
+export const vehicleDeletionSchema = z.object({
+  id: z.string(),
+});

@@ -8,9 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-
-import { Badge } from "@/components/ui/badge";
 
 export default async function Dashboard() {
   return (
@@ -29,12 +26,6 @@ export default async function Dashboard() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="ml-auto flex items-center space-x-2">
-          <Badge variant="secondary" className="bg-green-50 text-green-700">
-            Growth Plan
-          </Badge>
-          <Button size="sm">Upgrade Plan</Button>
-        </div>
       </header>
 
       {/* Main Content */}
@@ -47,10 +38,6 @@ export default async function Dashboard() {
               <p className="text-gray-600 mt-1">
                 Here&lsquo;s what&lsquo;s happening with your products today.
               </p>
-            </div>
-            <div className="md:text-right">
-              <p className="text-sm text-gray-500">Current Plan</p>
-              <Badge className="bg-green-600">Growth - 12 Products</Badge>
             </div>
           </div>
         </div>

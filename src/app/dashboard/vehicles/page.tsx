@@ -43,10 +43,7 @@ export default async function VehiclesPage() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="ml-auto flex items-center space-x-2">
-          <Button
-            asChild
-            className="hidden md:flex bg-green-600 hover:bg-green-700"
-          >
+          <Button asChild className="bg-green-600 hover:bg-green-700">
             <Link href={"/dashboard/vehicles/create"}>
               <Plus className="h-4 w-4 mr-2" />
               Add a Vehicle
@@ -69,7 +66,7 @@ export default async function VehiclesPage() {
           </div>
         </div>
         {vehicles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {vehicles.map((vehicle, index) => (
               <VehicleCard key={index} vehicle={vehicle} />
             ))}

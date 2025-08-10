@@ -11,17 +11,14 @@ import {
   Car,
   QrCode,
   Smartphone,
-  Users,
   Calendar,
-  Shield,
-  Star,
   CheckCircle,
   ArrowRight,
   BarChart3,
   MapPin,
   Zap,
+  Rocket,
 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
@@ -252,12 +249,13 @@ export default function Home() {
             <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
                 <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-yellow-600" />
+                  <Rocket className="w-6 h-6 text-yellow-600" />
                 </div>
-                <CardTitle>Secure Payments (Soon)</CardTitle>
+                <CardTitle>Open Source</CardTitle>
                 <CardDescription>
-                  Protected transactions with automatic payouts and fraud
-                  prevention
+                  Fully transparent and community-driven. Contribute, customize,
+                  and deploy your own rental platform with our open source
+                  codebase.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -280,7 +278,7 @@ export default function Home() {
                 <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
                   <Zap className="w-6 h-6 text-indigo-600" />
                 </div>
-                <CardTitle>Instant Notifications</CardTitle>
+                <CardTitle>Instant Notifications (Soon)</CardTitle>
                 <CardDescription>
                   Real-time updates for bookings, confirmations, and important
                   alerts
@@ -384,114 +382,132 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Simple, Transparent Pricing
+              100% Open Source
             </h2>
             <p className="text-xl text-gray-600">
-              Choose the plan that works best for your business
+              Renta is free and open source. Access the codebase, deploy your
+              own instance, or contribute to the project and help shape the
+              future of vehicle rentals.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card className="border-2 border-gray-200">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Starter</CardTitle>
-                <div className="text-3xl font-bold mt-4">Free</div>
-                <CardDescription>Perfect for individual owners</CardDescription>
+                <CardTitle className="text-2xl">Get the Code</CardTitle>
+                <div className="text-3xl font-bold mt-4">Free Forever</div>
+                <CardDescription>
+                  Clone, self-host, and customize for your needs.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Up to 2 vehicles
+                    MIT Licensed
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Basic dashboard
+                    No vendor lock-in
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    QR code scanning
+                    Full feature access
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    5% transaction fee
+                    Community support
                   </li>
                 </ul>
-                <Button
-                  className="w-full mt-6 bg-transparent"
-                  variant="outline"
-                >
-                  Get Started
+                <Button asChild className="w-full mt-6" variant="outline">
+                  <a
+                    href="https://github.com/renta-app/renta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on GitHub
+                  </a>
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="border-2 border-blue-500 relative">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-blue-500">Most Popular</Badge>
+                <Badge className="bg-blue-500">Contribute</Badge>
               </div>
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Professional</CardTitle>
-                <div className="text-3xl font-bold mt-4">
-                  $29<span className="text-lg font-normal">/month</span>
-                </div>
-                <CardDescription>For growing rental businesses</CardDescription>
+                <CardTitle className="text-2xl">Join Development</CardTitle>
+                <div className="text-3xl font-bold mt-4">Community Driven</div>
+                <CardDescription>
+                  Help improve Renta and shape its roadmap.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Up to 10 vehicles
+                    Open issues & discussions
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Advanced analytics
+                    Submit pull requests
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Priority support
+                    Feature suggestions welcome
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    3% transaction fee
+                    Contributor recognition
                   </li>
                 </ul>
-                <Button className="w-full mt-6">Start Free Trial</Button>
+                <Button asChild className="w-full mt-6">
+                  <a
+                    href="https://github.com/renta-app/renta/blob/main/CONTRIBUTING.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Start Contributing
+                  </a>
+                </Button>
               </CardContent>
             </Card>
 
             <Card className="border-2 border-gray-200">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Enterprise</CardTitle>
-                <div className="text-3xl font-bold mt-4">
-                  $99<span className="text-lg font-normal">/month</span>
-                </div>
-                <CardDescription>For large fleet operations</CardDescription>
+                <CardTitle className="text-2xl">Deploy Instantly</CardTitle>
+                <div className="text-3xl font-bold mt-4">Your Platform</div>
+                <CardDescription>
+                  Launch your own Renta instance in minutes.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Unlimited vehicles
+                    Docker & cloud ready
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Custom integrations
+                    Custom branding
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    24/7 phone support
+                    Full documentation
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    1% transaction fee
+                    No hidden fees
                   </li>
                 </ul>
-                <Button
-                  className="w-full mt-6 bg-transparent"
-                  variant="outline"
-                >
-                  Contact Sales
+                <Button asChild className="w-full mt-6" variant="outline">
+                  <a
+                    href="https://github.com/renta-app/renta#deployment"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Deployment Guide
+                  </a>
                 </Button>
               </CardContent>
             </Card>

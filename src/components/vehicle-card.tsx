@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatDate } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { VehicleDeletionAlertDialog } from "./vehicle-deletion-alert-dialog";
 
 const defaultTypeLabels: Record<number, string> = {
   0: "Car",
@@ -37,8 +39,8 @@ const VehicleCard = (props: VehicleCardProps) => {
 
   return (
     <Card className={cn("overflow-hidden", className)}>
-      <div className="grid md:grid-cols-[320px_1fr]">
-        <div className="relative aspect-[4/3] md:aspect-auto md:h-full bg-muted">
+      <div className="flex flex-col gap-4">
+        <div className="relative aspect-[16/9]">
           <Image
             src={
               hasImage
@@ -47,13 +49,13 @@ const VehicleCard = (props: VehicleCardProps) => {
             }
             alt={"Photo of " + vehicle.modelName}
             fill
-            sizes="(max-width: 768px) 100vw, 320px"
+            // sizes="(max-width: 768px) 100vw, 320px"
             className="object-cover"
             priority={false}
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <CardHeader className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="secondary" className="flex items-center gap-1">
@@ -96,8 +98,8 @@ const VehicleCard = (props: VehicleCardProps) => {
             </p>
           </CardContent>
 
-          <CardFooter className="text-xs text-muted-foreground">
-            {"Vehicle ID: " + vehicle.id}
+          <CardFooter className="mt-4 text-xs text-muted-foreground">
+            <VehicleDeletionAlertDialog vehicleId={vehicle.id} />
           </CardFooter>
         </div>
       </div>
