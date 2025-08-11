@@ -105,16 +105,40 @@ export const createVehicle = async (
 
 export const updateVehicle = async (
   id: string,
-  vehicleData: Omit<Vehicle, "vehicleBookingRecords">
+  vehicleData: z.infer<typeof vehicleCreationSchema>
 ): Promise<Vehicle> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.token) {
+    throw new Error("Unauthorized: No session or access token found");
+  }
+
+  const formData = new FormData();
+
+  // Separate the file
+  const { vehicleImageFile, ...textFields } = vehicleData;
+
+  // Append non-file fields automatically
+  Object.entries(textFields).forEach(([key, value]) => {
+    formData.append(key, String(value)); // ensure value is stringified
+  });
+
+  // Append the image file if it exists
+  if (vehicleImageFile) {
+    formData.append("vehicleImageFile", vehicleImageFile);
+  }
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Vehicle/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(vehicleData),
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${session.user.token}`,
+    },
+    body: formData,
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to update vehicle with id ${id}`);
+    const errorText = await res.text();
+    throw new Error(errorText || `Failed to update vehicle with id ${id}`);
   }
 
   return res.json();

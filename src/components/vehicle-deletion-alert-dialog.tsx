@@ -46,7 +46,7 @@ export function VehicleDeletionAlertDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size={"sm"} className="w-full">
+        <Button variant="destructive" size={"sm"}>
           Remove
         </Button>
       </AlertDialogTrigger>

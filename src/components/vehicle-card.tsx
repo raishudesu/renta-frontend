@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn, formatDate } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { VehicleDeletionAlertDialog } from "./vehicle-deletion-alert-dialog";
+import Link from "next/link";
 
 const defaultTypeLabels: Record<number, string> = {
   0: "Car",
@@ -98,7 +99,12 @@ const VehicleCard = (props: VehicleCardProps) => {
             </p>
           </CardContent>
 
-          <CardFooter className="mt-4 text-xs text-muted-foreground">
+          <CardFooter className="mt-4 text-xs text-muted-foreground flex gap-2">
+            <Button asChild variant={"outline"}>
+              <Link href={`/dashboard/vehicles/${vehicle.id}/edit-details`}>
+                Edit
+              </Link>
+            </Button>
             <VehicleDeletionAlertDialog vehicleId={vehicle.id} />
           </CardFooter>
         </div>
