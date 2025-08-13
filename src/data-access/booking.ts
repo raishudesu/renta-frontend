@@ -1,3 +1,4 @@
+import { BookingCreation } from "@/schemas/booking.schema";
 import { Booking } from "@/types/booking.type";
 
 export const getAllBookings = async (): Promise<Booking[]> => {
@@ -19,15 +20,20 @@ export const getBookingById = async (id: string): Promise<Booking> => {
 
   return res.json();
 };
-export const createBooking = async (bookingData: Booking): Promise<Booking> => {
+export const createBooking = async (
+  bookingData: BookingCreation
+): Promise<Booking> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Booking`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(bookingData),
   });
 
+  console.log(res);
+
   if (!res.ok) {
-    throw new Error("Failed to create booking");
+    const errorText = await res.text();
+    throw new Error(errorText || "Failed to create booking");
   }
 
   return res.json();

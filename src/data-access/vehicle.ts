@@ -1,10 +1,10 @@
 import { authOptions } from "@/lib/auth";
 import { vehicleCreationSchema } from "@/schemas/vehicle.schema";
-import { Vehicle } from "@/types/vehicle.type";
+import { Vehicle, VehicleWithOwner } from "@/types/vehicle.type";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-export const getAllVehicles = async (): Promise<Vehicle[]> => {
+export const getAllVehicles = async (): Promise<VehicleWithOwner[]> => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.token) {
