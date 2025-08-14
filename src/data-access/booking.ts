@@ -1,5 +1,7 @@
+import { authOptions } from "@/lib/auth";
 import { BookingCreation } from "@/schemas/booking.schema";
-import { Booking } from "@/types/booking.type";
+import { Booking, BookingWithVehicle } from "@/types/booking.type";
+import { getServerSession } from "next-auth";
 
 export const getAllBookings = async (): Promise<Booking[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Booking`);
@@ -56,6 +58,30 @@ export const updateBooking = async (
   return res.json();
 };
 
+export const updateBookingStatus = async (
+  id: string,
+  bookingStatus: number
+) => {
+  const session = await getServerSession(authOptions);
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Booking/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.user.token}`,
+    },
+    body: JSON.stringify(bookingStatus),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+
+    throw new Error(errorText || "Failed to update booking status");
+  }
+
+  return res.json();
+};
+
 export const deleteBooking = async (id: string): Promise<void> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Booking/${id}`, {
     method: "DELETE",
@@ -72,13 +98,25 @@ export const deleteBooking = async (id: string): Promise<void> => {
 
 export const getBookingsByUserId = async (
   userId: string
-): Promise<Booking[]> => {
+): Promise<BookingWithVehicle[]> => {
+  const session = await getServerSession(authOptions);
+
+  if (userId !== session?.user.id) throw new Error("User id does not match!");
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/Booking/user/${userId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/Booking/user/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`,
+      },
+    }
   );
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch bookings for user with id ${userId}`);
+    const errorText = await res.text();
+    throw new Error(
+      errorText || `Failed to fetch bookings for user with id ${userId}`
+    );
   }
 
   return res.json();

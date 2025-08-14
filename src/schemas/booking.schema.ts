@@ -9,7 +9,7 @@ export const bookingSchema = z.object({
   // bookerPhoneCountry: z.string(),
   userId: z.string(),
   vehicleId: z.string(),
-  status: z.enum(["Pending", "Confirmed", "Cancelled"]),
+  status: z.number(),
 });
 
 export const bookingCreationSchema = z.object({
