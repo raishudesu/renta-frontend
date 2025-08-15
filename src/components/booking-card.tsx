@@ -1,8 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, Phone, User, Car } from "lucide-react";
 import { BookingWithVehicle } from "@/types/booking.type";
 import { formatDateTime, formatTime } from "@/lib/utils";
+import QrScannerDrawer from "./qr-scanner";
 
 interface BookingCardProps {
   booking: BookingWithVehicle;
@@ -47,7 +54,7 @@ export function BookingCard({ booking }: BookingCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold">
-            Booking #{booking.id.slice(-6) || undefined}
+            Booking ID: {booking.id.slice() || undefined}
           </CardTitle>
           <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
         </div>
@@ -90,6 +97,9 @@ export function BookingCard({ booking }: BookingCardProps) {
           </div>
         </div>
       </CardContent>
+      <CardFooter>
+        <QrScannerDrawer bookingId={booking.id} />
+      </CardFooter>
     </Card>
   );
 }

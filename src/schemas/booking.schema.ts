@@ -23,4 +23,9 @@ export const bookingCreationSchema = z.object({
   vehicleId: z.string("Vehicle id is required"),
 });
 
+export const bookingStatusUpdateSchema = z.object({
+  id: z.string(),
+  status: z.number(),
+});
+
 export type BookingCreation = z.infer<typeof bookingCreationSchema>;

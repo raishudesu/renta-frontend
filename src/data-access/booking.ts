@@ -79,7 +79,7 @@ export const updateBookingStatus = async (
     throw new Error(errorText || "Failed to update booking status");
   }
 
-  return res.json();
+  return { ok: true };
 };
 
 export const deleteBooking = async (id: string): Promise<void> => {

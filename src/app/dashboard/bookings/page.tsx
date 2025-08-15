@@ -23,8 +23,6 @@ export default async function BookingsPage() {
 
   const bookings = await getBookingsByUserId(session?.user.id);
 
-  console.log(bookings);
-
   return (
     <div className="w-full flex flex-col gap-4">
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
