@@ -10,6 +10,7 @@ import { Calendar, Clock, Phone, User, Car } from "lucide-react";
 import { BookingWithVehicle } from "@/types/booking.type";
 import { formatDateTime, formatTime } from "@/lib/utils";
 import QrScannerDrawer from "./qr-scanner";
+import { CancelBookingDialog } from "./cancel-booking-dialog";
 
 interface BookingCardProps {
   booking: BookingWithVehicle;
@@ -54,7 +55,7 @@ export function BookingCard({ booking }: BookingCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold">
-            Booking ID: {booking.id.slice() || undefined}
+            Booking ID: {booking.id || undefined}
           </CardTitle>
           <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
         </div>
@@ -97,8 +98,9 @@ export function BookingCard({ booking }: BookingCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-2">
         <QrScannerDrawer bookingId={booking.id} />
+        <CancelBookingDialog bookingId={booking.id} />
       </CardFooter>
     </Card>
   );
