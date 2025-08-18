@@ -66,7 +66,7 @@ export const getAllUsers = async (): Promise<User[]> => {
 };
 
 export const updateBusinessCoordinates = async (
-  businessCoordinates: string
+  businessCoordinatesString: string
 ): Promise<{ ok: boolean }> => {
   const session = await getServerSession(authOptions);
 
@@ -82,12 +82,13 @@ export const updateBusinessCoordinates = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${session.user.token}`,
       },
-      body: JSON.stringify({ businessCoordinates }),
+      body: JSON.stringify({ businessCoordinates: businessCoordinatesString }),
     }
   );
 
   if (!res.ok) {
     const errorText = await res.text();
+
     throw new Error(errorText || "Failed to fetch users");
   }
 

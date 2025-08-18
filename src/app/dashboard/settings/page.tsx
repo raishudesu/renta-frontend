@@ -1,20 +1,11 @@
-"use client";
-
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-
-const Map = dynamic(() => import("./map"), {
-  ssr: false,
-});
+import LocationForm from "./location-form";
 
 const SettingsPage = () => {
   return (
     <div className="w-full flex flex-col gap-4">
       {/* Main Content */}
-      <div className="flex flex-1 flex-col gap-4">
-        <Suspense fallback={"Loading Map..."}>
-          <Map />
-        </Suspense>
+      <div className="flex flex-col gap-4">
+        <LocationForm />
       </div>
     </div>
   );

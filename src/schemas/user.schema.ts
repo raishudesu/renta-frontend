@@ -38,3 +38,7 @@ export const userLoginSchema = z.object({
       "Password must contain at least one uppercase letter, one lowercase letter, and one number"
     ),
 });
+
+export const businessCoordinatesSchema = z.object({
+  businessCoordinatesString: z.string().min(1),
+});

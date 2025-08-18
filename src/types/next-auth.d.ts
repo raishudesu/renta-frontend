@@ -18,7 +18,7 @@ declare module "next-auth" {
       token?: string;
       firstName?: string;
       lastName?: string;
-      buisinessName?: string;
+      businessCoordinatesString?: string;
       accessToken?: string;
     } & DefaultSession["user"];
     accessToken?: string;
