@@ -17,6 +17,13 @@ import { Palette, User2 } from "lucide-react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { initials } from "./vehicle-public-card";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { LatLng } from "leaflet";
+import { Suspense } from "react";
+
+const VehicleDrawerMap = dynamic(() => import("./vehicle-drawer-map"), {
+  ssr: false,
+});
 
 const VehiclePublicCardDrawer = ({
   vehicle,
@@ -24,13 +31,16 @@ const VehiclePublicCardDrawer = ({
   vehicle: VehicleWithOwner;
 }) => {
   const ownerFull = `${vehicle.ownerName.firstName} ${vehicle.ownerName.lastName}`;
+
+  const position: LatLng = JSON.parse(vehicle.businessCoordinates || "null");
+
   return (
     <Drawer>
       <DrawerTrigger asChild>
         <Button size="sm">View details</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-md">
+        <div className="mx-auto w-full max-w-lg overflow-y-scroll">
           <DrawerHeader>
             <DrawerTitle>{vehicle.modelName}</DrawerTitle>
             <DrawerDescription>{vehicle.description}</DrawerDescription>
@@ -65,6 +75,25 @@ const VehiclePublicCardDrawer = ({
                 <span className="line-clamp-1">{ownerFull}</span>
               </div>
             </div>
+          </div>
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold">Location</h3>
+            {position ? (
+              <>
+                <Link
+                  href={`https://www.google.com/maps?q=${position.lat},${position.lng}`}
+                  className="text-blue-500 hover:underline"
+                  target="_blank"
+                >
+                  View in Google Maps
+                </Link>
+                <Suspense fallback={<div>Loading Map...</div>}>
+                  <VehicleDrawerMap position={position} />
+                </Suspense>
+              </>
+            ) : (
+              <span>No location available</span>
+            )}
           </div>
 
           <DrawerFooter>

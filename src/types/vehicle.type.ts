@@ -18,6 +18,7 @@ export interface VehicleWithOwner extends Vehicle {
     firstName: string;
     lastName: string;
   };
+  businessCoordinates?: string | null;
 }
 
 export interface VehicleImage {

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  // CalendarClock,
-  BadgeIcon as IdCard,
-  Palette,
-  User2,
-} from "lucide-react";
+import { Palette, User2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -14,9 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-// import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { getVehicleTypeMeta, VehicleWithOwner } from "@/types/vehicle.type";
@@ -51,7 +43,6 @@ export default function VehiclePublicCard({
   const meta = getVehicleTypeMeta(vehicle.type);
 
   const ownerFull = `${vehicle.ownerName.firstName} ${vehicle.ownerName.lastName}`;
-  const bookingsCount = vehicle.vehicleBookingRecords?.length ?? 0;
 
   const imageSrc =
     vehicle.imagePreSignedUrl ||
@@ -107,21 +98,10 @@ export default function VehiclePublicCard({
 
       <CardFooter className="mt-auto flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback>
-              {initials(
-                vehicle.ownerName.firstName,
-                vehicle.ownerName.lastName
-              )}
-            </AvatarFallback>
-          </Avatar>
           <div className="min-w-0">
             <div className="flex items-center gap-1 text-sm">
               <User2 className="h-4 w-4 text-muted-foreground" />
               <span className="line-clamp-1">{ownerFull}</span>
-            </div>
-            <div className="text-xs text-muted-foreground">
-              {bookingsCount} booking{bookingsCount === 1 ? "" : "s"}
             </div>
           </div>
         </div>

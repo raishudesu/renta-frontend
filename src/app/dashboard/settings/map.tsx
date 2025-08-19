@@ -9,22 +9,16 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { useCallback, useMemo, useRef, useState, useEffect } from "react";
-import { Icon, type Marker as LeafletMarker } from "leaflet";
+import { type Marker as LeafletMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { mapPin } from "@/constants/map-icons";
 
 const fallbackCenter = {
   lat: 14.59,
   lng: 120.98,
 };
-
-const mapPin = new Icon({
-  iconUrl: "/map/map-pin.svg",
-  iconSize: [45, 45],
-  iconAnchor: [15, 30],
-  popupAnchor: [0, -30],
-});
 
 interface LocationPickerProps {
   onLocationPicked: (latLng: string) => void;
