@@ -1,4 +1,5 @@
 import { Booking } from "./booking.type";
+import { PaginationMetadata } from "./pagination";
 
 export interface Vehicle {
   id: string;
@@ -55,3 +56,15 @@ export const vehicleTypeOptions = Object.entries(VEHICLE_TYPES).map(
     label: meta.label,
   })
 );
+
+export type VehicleQueryParameters = {
+  pageNumber: number;
+  pageSize: number;
+  type?: number | null;
+  modelName?: string | null;
+};
+
+export interface PagedResponse<T> {
+  data: T[];
+  pagination: PaginationMetadata;
+}

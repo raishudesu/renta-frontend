@@ -1,16 +1,37 @@
 import { authOptions } from "@/lib/auth";
 import { vehicleCreationSchema } from "@/schemas/vehicle.schema";
-import { Vehicle, VehicleWithOwner } from "@/types/vehicle.type";
+import { PaginationMetadata } from "@/types/pagination";
+import {
+  PagedResponse,
+  Vehicle,
+  VehicleQueryParameters,
+  VehicleWithOwner,
+} from "@/types/vehicle.type";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-export const getAllVehicles = async (): Promise<VehicleWithOwner[]> => {
+export const getAllVehicles = async (
+  params: VehicleQueryParameters
+): Promise<PagedResponse<VehicleWithOwner>> => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.token) {
     throw new Error("Unauthorized: No session or access token found");
   }
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Vehicle`, {
+
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/Vehicle`);
+
+  url.searchParams.append("PageNumber", params.pageNumber.toString());
+  url.searchParams.append("PageSize", params.pageSize.toString());
+
+  if (params.type) {
+    url.searchParams.append("Type", params.type.toString());
+  }
+  if (params.modelName) {
+    url.searchParams.append("ModelName", params.modelName);
+  }
+
+  const res = await fetch(url.toString(), {
     headers: {
       Authorization: `Bearer ${session.user.token}`,
     },
@@ -21,7 +42,23 @@ export const getAllVehicles = async (): Promise<VehicleWithOwner[]> => {
     throw new Error(errorText || "Failed to fetch vehicles");
   }
 
-  return res.json();
+  // Extract pagination metadata from headers
+  const paginationHeader = res.headers.get("X-Pagination");
+  const pagination: PaginationMetadata = paginationHeader
+    ? JSON.parse(paginationHeader)
+    : {
+        TotalCount: 0,
+        PageSize: params.pageSize,
+        CurrentPage: params.pageNumber,
+        TotalPages: 0,
+        HasNext: false,
+        HasPrevious: false,
+      };
+
+  // Extract data from body
+  const data: VehicleWithOwner[] = await res.json();
+
+  return { data, pagination };
 };
 
 export const getVehicleById = async (id: string): Promise<Vehicle> => {
