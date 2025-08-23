@@ -18,42 +18,9 @@ import { Separator } from "@/components/ui/separator";
 import VehiclePublicCard from "./vehicle-public-card";
 import { vehicleTypeOptions, VehicleWithOwner } from "@/types/vehicle.type";
 import { PaginationMetadata } from "@/types/pagination";
-
-// 🔹 Simple debounce hook
-function useDebouncedValue<T>(value: T, delay = 500) {
-  const [debounced, setDebounced] = useState(value);
-  useEffect(() => {
-    const id = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(id);
-  }, [value, delay]);
-  return debounced;
-}
-
-// 🔹 Generate page numbers with ellipses
-function getPageNumbers(current: number, total: number) {
-  const delta = 2; // how many pages around current
-  const pages: (number | "...")[] = [];
-
-  for (
-    let i = Math.max(2, current - delta);
-    i <= Math.min(total - 1, current + delta);
-    i++
-  ) {
-    pages.push(i);
-  }
-
-  if (current - delta > 2) {
-    pages.unshift("...");
-  }
-  if (current + delta < total - 1) {
-    pages.push("...");
-  }
-
-  pages.unshift(1);
-  if (total > 1) pages.push(total);
-
-  return pages;
-}
+import { createQueryString, getPageNumbers } from "@/lib/utils";
+import { useDebouncer } from "@/hooks/use-debouncer";
+import { toast } from "sonner";
 
 export default function VehiclesBrowser({
   vehicles,
@@ -81,8 +48,8 @@ export default function VehiclesBrowser({
   const page =
     Number(searchParams.get("pageNumber")) || pagination.CurrentPage || 1;
 
-  const debouncedQuery = useDebouncedValue(query, 500);
-  const debouncedMaxDistanceKm = useDebouncedValue(maxDistanceKm, 500);
+  const debouncedQuery = useDebouncer(query, 500);
+  const debouncedMaxDistanceKm = useDebouncer(maxDistanceKm, 500);
 
   // Helper to get current params for updating
   const getCurrentParams = () => ({
@@ -93,38 +60,28 @@ export default function VehiclesBrowser({
     maxDistanceKm: debouncedMaxDistanceKm || null,
   });
 
-  const createQueryString = (
-    params: Record<string, string | number | null>
-  ) => {
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-
-    Object.entries(params).forEach(([name, value]) => {
-      if (value === null || value === "") {
-        newSearchParams.delete(name);
-      } else {
-        newSearchParams.set(name, String(value));
-      }
-    });
-
-    return newSearchParams.toString();
-  };
-
   const goToPage = (pageNumber: number) => {
     router.push(
-      `${pathname}?${createQueryString({
-        ...getCurrentParams(),
-        pageNumber,
-      })}`
+      `${pathname}?${createQueryString(
+        {
+          ...getCurrentParams(),
+          pageNumber,
+        },
+        searchParams
+      )}`
     );
   };
 
   // Update search params when filters change
   useEffect(() => {
     router.push(
-      `${pathname}?${createQueryString({
-        ...getCurrentParams(),
-        pageNumber: 1,
-      })}`
+      `${pathname}?${createQueryString(
+        {
+          ...getCurrentParams(),
+          pageNumber: 1,
+        },
+        searchParams
+      )}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery, typeFilter, debouncedMaxDistanceKm]);
@@ -136,28 +93,38 @@ export default function VehiclesBrowser({
         navigator.geolocation.getCurrentPosition(
           (position) => {
             router.push(
-              `${pathname}?${createQueryString({
-                ...getCurrentParams(),
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                pageNumber: 1,
-              })}`
+              `${pathname}?${createQueryString(
+                {
+                  ...getCurrentParams(),
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude,
+                  pageNumber: 1,
+                },
+                searchParams
+              )}`
             );
           },
           (error) => {
             // Optionally handle error (e.g., show a toast)
             console.error("Geolocation error:", error);
+            toast.error(
+              "Unable to retrieve your location. Please allow location access."
+            );
+            setIsLocationActive(false);
           }
         );
       }
     } else {
       router.push(
-        `${pathname}?${createQueryString({
-          ...getCurrentParams(),
-          latitude: null,
-          longitude: null,
-          pageNumber: 1,
-        })}`
+        `${pathname}?${createQueryString(
+          {
+            ...getCurrentParams(),
+            latitude: null,
+            longitude: null,
+            pageNumber: 1,
+          },
+          searchParams
+        )}`
       );
     }
   };
