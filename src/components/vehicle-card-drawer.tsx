@@ -40,7 +40,7 @@ const VehiclePublicCardDrawer = ({
         <Button size="sm">View details</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-lg overflow-y-scroll">
+        <div className="mx-auto w-full max-w-lg overflow-y-scroll px-2">
           <DrawerHeader>
             <DrawerTitle>{vehicle.modelName}</DrawerTitle>
             <DrawerDescription>{vehicle.description}</DrawerDescription>
@@ -60,7 +60,7 @@ const VehiclePublicCardDrawer = ({
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="mt-6 flex items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarFallback>
                 {initials(

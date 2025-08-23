@@ -162,7 +162,10 @@ export default function VehiclesBrowser({
                 value={typeFilter}
                 onValueChange={(val) => setTypeFilter(val)}
               >
-                <SelectTrigger className="w-[160px]" aria-label="Vehicle type">
+                <SelectTrigger
+                  className="w-full md:max-w-[160px]"
+                  aria-label="Vehicle type"
+                >
                   <SelectValue placeholder="Type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,7 +187,7 @@ export default function VehiclesBrowser({
               value={maxDistanceKm}
               onChange={(e) => setMaxDistanceKm(e.target.value)}
               placeholder="Max distance (km)"
-              className="max-w-sm"
+              className="w-full md:max-w-sm"
               aria-label="Max distance in kilometers"
             />
             {/* Locate Button */}

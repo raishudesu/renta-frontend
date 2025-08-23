@@ -77,7 +77,7 @@ const LoginForm = () => {
         richColors: true,
       });
 
-      router.replace("/");
+      router.replace("/dashboard");
     } catch (error) {
       toast.error("Something went wrong", {
         richColors: true,

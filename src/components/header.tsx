@@ -31,10 +31,10 @@ const Header = async () => {
             How it Works
           </Link>
           <Link
-            href="#pricing"
+            href="#open-source"
             className="text-gray-600 hover:text-gray-900 transition-colors"
           >
-            Pricing
+            Open Source
           </Link>
           {session ? (
             <Button asChild variant="outline" className="bg-background">

@@ -13,9 +13,12 @@ export const getAllBookings = async (): Promise<Booking[]> => {
   return res.json();
 };
 
-export const getBookingById = async (id: string): Promise<Booking> => {
+export const getBookingById = async (id: string): Promise<Booking | null> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Booking/${id}`);
 
+  if (res.status === 404) {
+    return null;
+  }
   if (!res.ok) {
     throw new Error(`Failed to fetch booking with id ${id}`);
   }

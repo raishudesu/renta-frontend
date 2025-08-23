@@ -1,5 +1,7 @@
 import React from "react";
 import BookingQr from "./booking-qr";
+import { getBookingById } from "@/data-access/booking";
+import { notFound } from "next/navigation";
 
 const BookingQrPage = async ({
   params,
@@ -7,6 +9,12 @@ const BookingQrPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id: bookingId } = await params;
+
+  const booking = await getBookingById(bookingId);
+
+  if (!booking) {
+    return notFound();
+  }
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-10">

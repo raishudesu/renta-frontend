@@ -11,15 +11,14 @@ import {
   Car,
   QrCode,
   Smartphone,
-  Calendar,
   CheckCircle,
   ArrowRight,
   BarChart3,
   MapPin,
-  Zap,
   Rocket,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -41,13 +40,17 @@ export default function Home() {
             hassle.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg">
-              Start as Owner
-              <ArrowRight className="ml-2 w-4 h-4" />
+            <Button asChild size="lg">
+              <Link href="/register">
+                Start as Owner
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline">
-              Find a Vehicle
-              <Car className="ml-2 w-4 h-4" />
+            <Button asChild size="lg" variant="outline">
+              <Link href="/rentals">
+                Find a Vehicle
+                <Car className="ml-2 w-4 h-4" />
+              </Link>
             </Button>
           </div>
 
@@ -206,7 +209,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
@@ -233,7 +236,7 @@ export default function Home() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            {/* <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                   <Calendar className="w-6 h-6 text-green-600" />
@@ -244,7 +247,7 @@ export default function Home() {
                   prevention
                 </CardDescription>
               </CardHeader>
-            </Card>
+            </Card> */}
 
             <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
@@ -273,7 +276,7 @@ export default function Home() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            {/* <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
                 <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
                   <Zap className="w-6 h-6 text-indigo-600" />
@@ -284,7 +287,7 @@ export default function Home() {
                   alerts
                 </CardDescription>
               </CardHeader>
-            </Card>
+            </Card> */}
           </div>
         </div>
       </section>
@@ -295,7 +298,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Why Choose Renta?
+                Why Use Renta?
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
@@ -328,7 +331,7 @@ export default function Home() {
                     </p>
                   </div>
                 </div> */}
-                <div className="flex items-start space-x-4">
+                {/* <div className="flex items-start space-x-4">
                   <CheckCircle className="w-6 h-6 text-green-600 mt-1" />
                   <div>
                     <h3 className="font-semibold mb-2">24/7 Support</h3>
@@ -337,7 +340,7 @@ export default function Home() {
                       questions or issues.
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="bg-gradient-to-br from-orange-100 to-purple-100 rounded-2xl p-8">
@@ -378,7 +381,7 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20 bg-background">
+      <section id="open-source" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -391,7 +394,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <Card className="border-2 border-gray-200">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">Get the Code</CardTitle>
@@ -419,14 +422,23 @@ export default function Home() {
                     Community support
                   </li>
                 </ul>
-                <Button asChild className="w-full mt-6" variant="outline">
-                  <a
-                    href="https://github.com/renta-app/renta"
+                <Button asChild className="w-full mt-6" variant="link">
+                  <Link
+                    href="https://github.com/raishudesu/renta-frontend"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    View on GitHub
-                  </a>
+                    Renta Frontend on GitHub
+                  </Link>
+                </Button>
+                <Button asChild className="w-full mt-2" variant="link">
+                  <Link
+                    href="https://github.com/raishudesu/renta-backend"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Renta Backend on GitHub
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -462,52 +474,13 @@ export default function Home() {
                   </li>
                 </ul>
                 <Button asChild className="w-full mt-6">
-                  <a
-                    href="https://github.com/renta-app/renta/blob/main/CONTRIBUTING.md"
+                  <Link
+                    href="https://github.com/raishudesu"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Start Contributing
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 border-gray-200">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Deploy Instantly</CardTitle>
-                <div className="text-3xl font-bold mt-4">Your Platform</div>
-                <CardDescription>
-                  Launch your own Renta instance in minutes.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Docker & cloud ready
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Custom branding
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    Full documentation
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                    No hidden fees
-                  </li>
-                </ul>
-                <Button asChild className="w-full mt-6" variant="outline">
-                  <a
-                    href="https://github.com/renta-app/renta#deployment"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Deployment Guide
-                  </a>
+                    Visit Developer
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -519,28 +492,12 @@ export default function Home() {
       <section className="py-20 bg-gradient-to-r from-orange-400 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Transform Your Vehicle Rental Business?
+            Ready to Transform Vehicle Rental Business?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-            Join thousands of vehicle owners and renters who have simplified
-            their rental experience with Renta.
+            Join and contribute to simplify rental business owners&lsquo; rental
+            experience with Renta.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-blue-500 hover:bg-gray-100"
-            >
-              Start Your Free Trial
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-blue-600 bg-transparent"
-            >
-              Schedule a Demo
-            </Button>
-          </div>
         </div>
       </section>
     </div>

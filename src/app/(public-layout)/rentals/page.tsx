@@ -1,3 +1,4 @@
+import BackButton from "@/components/back-button";
 import VehiclesBrowser from "@/components/vehicle-browser";
 import { getAllVehicles } from "@/data-access/vehicle";
 import { VehicleQueryParameters } from "@/types/vehicle.type";
@@ -30,6 +31,9 @@ export default async function Page({
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-10">
+      <div className="py-4">
+        <BackButton />
+      </div>
       <div className="mb-6 md:mb-8">
         <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
           Browse Vehicles
