@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, SortAsc } from "lucide-react";
+import { Search, LocateFixed } from "lucide-react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
@@ -70,13 +70,28 @@ export default function VehiclesBrowser({
   const [typeFilter, setTypeFilter] = useState<string>(
     searchParams.get("type") || "all"
   );
-  const [sort, setSort] = useState<"newest" | "oldest">(
-    (searchParams.get("sort") as "newest" | "oldest") || "newest"
+  const [maxDistanceKm, setMaxDistanceKm] = useState(
+    searchParams.get("maxDistanceKm") || ""
   );
+
+  const [isLocationActive, setIsLocationActive] = useState(
+    Boolean(searchParams.get("latitude") && searchParams.get("longitude"))
+  );
+
   const page =
     Number(searchParams.get("pageNumber")) || pagination.CurrentPage || 1;
 
   const debouncedQuery = useDebouncedValue(query, 500);
+  const debouncedMaxDistanceKm = useDebouncedValue(maxDistanceKm, 500);
+
+  // Helper to get current params for updating
+  const getCurrentParams = () => ({
+    modelName: debouncedQuery || null,
+    type: typeFilter !== "all" ? typeFilter : null,
+    latitude: searchParams.get("latitude"),
+    longitude: searchParams.get("longitude"),
+    maxDistanceKm: debouncedMaxDistanceKm || null,
+  });
 
   const createQueryString = (
     params: Record<string, string | number | null>
@@ -84,7 +99,7 @@ export default function VehiclesBrowser({
     const newSearchParams = new URLSearchParams(searchParams.toString());
 
     Object.entries(params).forEach(([name, value]) => {
-      if (value === null) {
+      if (value === null || value === "") {
         newSearchParams.delete(name);
       } else {
         newSearchParams.set(name, String(value));
@@ -97,24 +112,61 @@ export default function VehiclesBrowser({
   const goToPage = (pageNumber: number) => {
     router.push(
       `${pathname}?${createQueryString({
+        ...getCurrentParams(),
         pageNumber,
-        modelName: debouncedQuery || null,
-        type: typeFilter !== "all" ? typeFilter : null,
-        sort,
       })}`
     );
   };
 
+  // Update search params when filters change
   useEffect(() => {
     router.push(
       `${pathname}?${createQueryString({
+        ...getCurrentParams(),
         pageNumber: 1,
-        modelName: debouncedQuery || null,
-        type: typeFilter !== "all" ? typeFilter : null,
-        sort,
       })}`
     );
-  }, [debouncedQuery, typeFilter, sort]); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedQuery, typeFilter, debouncedMaxDistanceKm]);
+
+  // Handler for "Use my location" button using browser geolocation
+  const handleLocate = () => {
+    if (!isLocationActive) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            router.push(
+              `${pathname}?${createQueryString({
+                ...getCurrentParams(),
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                pageNumber: 1,
+              })}`
+            );
+          },
+          (error) => {
+            // Optionally handle error (e.g., show a toast)
+            console.error("Geolocation error:", error);
+          }
+        );
+      }
+    } else {
+      router.push(
+        `${pathname}?${createQueryString({
+          ...getCurrentParams(),
+          latitude: null,
+          longitude: null,
+          pageNumber: 1,
+        })}`
+      );
+    }
+  };
+
+  const handleLocation = () => {
+    setIsLocationActive(!isLocationActive);
+
+    handleLocate();
+  };
 
   const pageNumbers = getPageNumbers(
     pagination.CurrentPage,
@@ -123,53 +175,63 @@ export default function VehiclesBrowser({
 
   return (
     <div className="space-y-6">
-      {/* 🔹 Filters */}
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="flex w-full flex-col gap-3 md:flex-row md:items-center">
-          <div className="relative w-full md:max-w-sm">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <div className="space-y-6">
+        {/* 🔹 Filters */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex w-full flex-col gap-3 md:flex-row md:items-center">
+            <div className="relative w-full md:max-w-sm">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by model name"
+                className="pl-9"
+                aria-label="Search vehicles"
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <Select
+                value={typeFilter}
+                onValueChange={(val) => setTypeFilter(val)}
+              >
+                <SelectTrigger className="w-[160px]" aria-label="Vehicle type">
+                  <SelectValue placeholder="Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All types</SelectItem>
+                  {vehicleTypeOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={String(opt.value)}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Max Distance Filter */}
+            <div className="flex items-center gap-2"></div>
             <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by model name"
-              className="pl-9"
-              aria-label="Search vehicles"
+              type="number"
+              min={1}
+              value={maxDistanceKm}
+              onChange={(e) => setMaxDistanceKm(e.target.value)}
+              placeholder="Max distance (km)"
+              className="max-w-sm"
+              aria-label="Max distance in kilometers"
             />
-          </div>
-
-          <div className="flex gap-2">
-            <Select
-              value={typeFilter}
-              onValueChange={(val) => setTypeFilter(val)}
+            {/* Locate Button */}
+            <Button
+              type="button"
+              variant={isLocationActive ? "default" : "outline"}
+              // size="icon"
+              title="Use my location"
+              onClick={handleLocation}
+              aria-label="Use my location"
             >
-              <SelectTrigger className="w-[160px]" aria-label="Vehicle type">
-                <SelectValue placeholder="Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All types</SelectItem>
-                {vehicleTypeOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={String(opt.value)}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select
-              value={sort}
-              onValueChange={(v) => setSort(v as "newest" | "oldest")}
-            >
-              <SelectTrigger className="w-[160px]" aria-label="Sort by">
-                <div className="flex items-center gap-2">
-                  <SortAsc className="h-4 w-4" />
-                  <SelectValue placeholder="Sort" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="oldest">Oldest</SelectItem>
-              </SelectContent>
-            </Select>
+              Show Nearest Rentals
+              <LocateFixed className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       </div>

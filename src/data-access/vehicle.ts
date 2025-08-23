@@ -24,12 +24,20 @@ export const getAllVehicles = async (
   url.searchParams.append("PageNumber", params.pageNumber.toString());
   url.searchParams.append("PageSize", params.pageSize.toString());
 
-  if (params.type) {
-    url.searchParams.append("Type", params.type.toString());
-  }
-  if (params.modelName) {
-    url.searchParams.append("ModelName", params.modelName);
-  }
+  const optionalParams: Partial<Record<string, string | number | undefined>> = {
+    Type: params.type,
+    ModelName: params.modelName,
+    Latitude: params.latitude,
+    Longitude: params.longitude,
+    MaxDistanceKm: params.maxDistanceKm,
+  };
+
+  // Append only defined optional parameters
+  Object.entries(optionalParams).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.append(key, value.toString());
+    }
+  });
 
   const res = await fetch(url.toString(), {
     headers: {

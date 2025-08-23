@@ -60,8 +60,11 @@ export const vehicleTypeOptions = Object.entries(VEHICLE_TYPES).map(
 export type VehicleQueryParameters = {
   pageNumber: number;
   pageSize: number;
-  type?: number | null;
-  modelName?: string | null;
+  type?: number | undefined;
+  modelName?: string | undefined;
+  latitude?: string | undefined;
+  longitude?: string | undefined;
+  maxDistanceKm?: string | undefined;
 };
 
 export interface PagedResponse<T> {

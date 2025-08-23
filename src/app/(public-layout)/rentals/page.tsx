@@ -19,6 +19,9 @@ export default async function Page({
     pageSize: params.pageSize || 10,
     type: params.type ?? undefined,
     modelName: params.modelName ?? undefined,
+    latitude: params.latitude ?? undefined,
+    longitude: params.longitude ?? undefined,
+    maxDistanceKm: params.maxDistanceKm ?? undefined,
   };
 
   const { data: vehicles, pagination } = await getAllVehicles(
