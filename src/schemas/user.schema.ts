@@ -14,14 +14,14 @@ export const userRegistrationSchema = z
     password: z
       .string()
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{6,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
       ),
     confirmPassword: z
       .string()
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{6,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
       ),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -34,11 +34,38 @@ export const userLoginSchema = z.object({
   password: z
     .string()
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{6,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
     ),
 });
 
 export const businessCoordinatesSchema = z.object({
   businessCoordinatesString: z.string().min(1),
 });
+
+export const passwordUpdateSchema = z
+  .object({
+    userId: z.string(),
+    currentPassword: z
+      .string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{6,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
+      ),
+    newPassword: z
+      .string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{6,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
+      ),
+    confirmNewPassword: z
+      .string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{6,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
+      ),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    path: ["confirmNewPassword"],
+    message: "Passwords do not match",
+  });

@@ -43,3 +43,9 @@ export type UserStats = {
   totalActiveBookings: number;
   totalCompletedBookings: number;
 };
+
+export type PasswordUpdateParams = {
+  userId: string;
+  newPassword: string;
+  currentPassword: string;
+};

@@ -14,14 +14,9 @@ import {
 
 const sidebarNavItems = [
   {
-    title: "Account",
+    title: "Location",
     href: "/dashboard/settings",
   },
-  {
-    title: "Profile",
-    href: "/dashboard/settings/profile",
-  },
-
   {
     title: "Password",
     href: "/dashboard/settings/password",

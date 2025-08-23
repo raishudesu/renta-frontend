@@ -137,7 +137,7 @@ const Map = ({
   const businessCoords = session?.user?.businessCoordinatesString ?? null;
 
   return (
-    <div className="relative w-full max-w-2xl">
+    <div className="relative w-full">
       <MapContainer
         center={fallbackCenter}
         zoom={13}

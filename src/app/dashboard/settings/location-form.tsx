@@ -81,7 +81,7 @@ export default function LocationForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-3xl mx-auto py-10"
+        className="space-y-8 mx-auto py-10 w-full"
       >
         <FormField
           control={form.control}

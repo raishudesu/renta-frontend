@@ -1,6 +1,12 @@
 import { authOptions } from "@/lib/auth";
+import { ActionError } from "@/lib/safe-action";
 import { userLoginSchema, userRegistrationSchema } from "@/schemas/user.schema";
-import { User, UserLoginResponse, UserStats } from "@/types/user.type";
+import {
+  PasswordUpdateParams,
+  User,
+  UserLoginResponse,
+  UserStats,
+} from "@/types/user.type";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
@@ -121,4 +127,40 @@ export const getUserStats = async (
   }
 
   return res.json();
+};
+
+export const updateUserPassword = async (
+  data: PasswordUpdateParams
+): Promise<{ ok: boolean }> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.token) {
+    throw new Error("Unauthorized: No session or access token found");
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/User/${data.userId}/update-password`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.user.token}`,
+      },
+      body: JSON.stringify({
+        newPassword: data.newPassword,
+        currentPassword: data.currentPassword,
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => null);
+
+    throw new ActionError(
+      errorData?.message || "Password change failed.",
+      res.status
+    );
+  }
+
+  return { ok: true };
 };
