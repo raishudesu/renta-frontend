@@ -29,14 +29,20 @@ const BookingQr = ({ bookingId }: { bookingId: string }) => {
 
     img.onload = () => {
       // Set canvas size to 1024x1024 for high quality
-      canvas.width = 1024;
-      canvas.height = 1024;
+      const canvasSize = 1024;
+      const padding = 80; // pixels of padding on each side
+      const qrSize = canvasSize - padding * 2;
+
+      canvas.width = canvasSize;
+      canvas.height = canvasSize;
 
       // Fill white background
       if (ctx) {
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Draw QR code image with padding
+        ctx.drawImage(img, padding, padding, qrSize, qrSize);
 
         // Convert to PNG and download
         canvas.toBlob(
