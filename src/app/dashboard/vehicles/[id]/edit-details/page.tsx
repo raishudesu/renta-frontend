@@ -12,6 +12,11 @@ import VehicleUpdateForm from "./vehicle-update-form";
 import { getVehicleById } from "@/data-access/vehicle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Renta | Edit Vehicle Details",
+};
 
 export default async function VehicleEditingPage({
   params,

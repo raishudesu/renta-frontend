@@ -13,6 +13,11 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getBookingsByUserId } from "@/data-access/booking";
 import { BookingCard } from "@/components/booking-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Renta | My Bookings",
+};
 
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);

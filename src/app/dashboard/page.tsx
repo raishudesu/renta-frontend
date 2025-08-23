@@ -14,6 +14,11 @@ import { getUserStats } from "@/data-access/user";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Car, Info, TrendingUp } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Renta | Dashboard",
+};
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);

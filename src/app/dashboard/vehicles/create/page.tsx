@@ -11,6 +11,11 @@ import {
 import VehicleCreationForm from "./vehicle-creation-form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Renta | Add Vehicle",
+};
 
 export default async function VehicleCreationPage() {
   const session = await getServerSession(authOptions);
@@ -31,6 +36,7 @@ export default async function VehicleCreationPage() {
                 My Vehicles
               </BreadcrumbLink>
             </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
               <BreadcrumbPage>Add Vehicle</BreadcrumbPage>
             </BreadcrumbItem>

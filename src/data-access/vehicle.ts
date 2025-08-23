@@ -13,12 +13,6 @@ import z from "zod";
 export const getAllVehicles = async (
   params: VehicleQueryParameters
 ): Promise<PagedResponse<VehicleWithOwner>> => {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user?.token) {
-    throw new Error("Unauthorized: No session or access token found");
-  }
-
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/Vehicle`);
 
   url.searchParams.append("PageNumber", params.pageNumber.toString());
@@ -39,11 +33,7 @@ export const getAllVehicles = async (
     }
   });
 
-  const res = await fetch(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${session.user.token}`,
-    },
-  });
+  const res = await fetch(url.toString());
 
   if (!res.ok) {
     const errorText = await res.text();

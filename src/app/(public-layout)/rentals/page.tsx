@@ -4,7 +4,7 @@ import { getAllVehicles } from "@/data-access/vehicle";
 import { VehicleQueryParameters } from "@/types/vehicle.type";
 
 export const metadata = {
-  title: "Vehicles",
+  title: "Renta | Vehicles",
   description: "Browse available rental vehicles.",
 };
 

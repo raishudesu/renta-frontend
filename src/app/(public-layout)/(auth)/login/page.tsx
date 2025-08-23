@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import LoginForm from "./login-form";
+
+export const metadata: Metadata = {
+  title: "Renta | Login",
+};
 
 const LoginPage = async () => {
   return (

@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import RegisterForm from "./register-form";
+
+export const metadata: Metadata = {
+  title: "Renta | Register",
+};
 
 const RegisterPage = async () => {
   return (

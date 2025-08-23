@@ -5,15 +5,18 @@ import { Button } from "@/components/ui/button";
 
 export default function Error({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
   }, [error]);
+
+  const reset = () => {
+    // This method can be used to reset the error boundary and retry rendering
+    window.location.reload();
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">

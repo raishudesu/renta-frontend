@@ -16,6 +16,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import VehicleCard from "@/components/vehicle-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Renta | My Vehicles",
+};
 
 export default async function VehiclesPage() {
   const session = await getServerSession(authOptions);

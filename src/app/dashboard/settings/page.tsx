@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import LocationForm from "./location-form";
+
+export const metadata: Metadata = {
+  title: "Renta | Settings | Location",
+};
 
 const SettingsPage = () => {
   return (
