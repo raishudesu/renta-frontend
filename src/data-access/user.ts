@@ -1,6 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { userLoginSchema, userRegistrationSchema } from "@/schemas/user.schema";
-import { User, UserLoginResponse } from "@/types/user.type";
+import { User, UserLoginResponse, UserStats } from "@/types/user.type";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
@@ -93,4 +93,32 @@ export const updateBusinessCoordinates = async (
   }
 
   return { ok: true };
+};
+
+export const getUserStats = async (
+  userId: string | undefined
+): Promise<UserStats> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.token || !userId) {
+    throw new Error("Unauthorized: No session or access token found");
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/User/${userId}/stats`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.user.token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "Failed to fetch user stats");
+  }
+
+  return res.json();
 };

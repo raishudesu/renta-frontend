@@ -37,3 +37,9 @@ export interface UserLoginResponse {
   id: string;
   roles: Roles[];
 }
+
+export type UserStats = {
+  totalVehicles: number;
+  totalActiveBookings: number;
+  totalCompletedBookings: number;
+};

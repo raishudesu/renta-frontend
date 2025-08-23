@@ -3,7 +3,7 @@ import z from "zod";
 
 export type Booking = z.infer<typeof bookingSchema>;
 
-export type BookingStatus = "Pending" | "Confirmed" | "Cancelled";
+export type BookingStatus = "Pending" | "Confirmed" | "Cancelled" | "Completed";
 
 export type VehicleDetails = {
   modelName: string;

@@ -11,6 +11,7 @@ import { BookingWithVehicle } from "@/types/booking.type";
 import { formatDateTime, formatTime } from "@/lib/utils";
 import QrScannerDrawer from "./qr-scanner";
 import { CancelBookingDialog } from "./cancel-booking-dialog";
+import CompleteBookingDialog from "./complete-booking-dialog";
 
 interface BookingCardProps {
   booking: BookingWithVehicle;
@@ -37,6 +38,13 @@ const getStatusInfo = (status: number) => {
         label: "Cancelled",
         variant: "destructive" as const,
         color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
+      };
+    case 3:
+      return {
+        label: "Completed",
+        variant: "default" as const,
+        color:
+          "bg-green-200 text-green-800 dark:bg-green-900 dark:text-green-200",
       };
     default:
       return {
@@ -99,8 +107,18 @@ export function BookingCard({ booking }: BookingCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
-        <QrScannerDrawer bookingId={booking.id} />
-        <CancelBookingDialog bookingId={booking.id} />
+        {booking.status === 0 && (
+          <>
+            <QrScannerDrawer bookingId={booking.id} />
+            <CancelBookingDialog bookingId={booking.id} />
+          </>
+        )}
+        {booking.status === 1 && (
+          <>
+            <CompleteBookingDialog bookingId={booking.id} />
+            <CancelBookingDialog bookingId={booking.id} />
+          </>
+        )}
       </CardFooter>
     </Card>
   );
