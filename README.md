@@ -39,12 +39,12 @@ A seamless experience for both **vehicle owners** and **renters**.
 ## Powerful Features
 
 - **QR Code Technology**  
-  Instant booking confirmation and seamless pickup process with secure QR codes.
+  Instant booking confirmation and seamless pickup process with QR codes.
 
 - **Owner Dashboard**  
-  Comprehensive analytics, booking management, and revenue tracking in one place.
+  Vehicle, and Booking management in one place.
 
-- **Smart Scheduling**  
+- **Smart Scheduling _(Soon)_** \
   Automated availability management and booking conflict prevention.
 
 - **Open Source**  
@@ -68,6 +68,75 @@ A seamless experience for both **vehicle owners** and **renters**.
 
 ---
 
-## Installation & Setup
+## 🚀 Next.js Frontend Deployment Guide
 
-> ⚠️ _This section will be updated as the project development progresses._
+This guide explains how to set up and deploy the **Next.js frontend** for your project.
+
+---
+
+## 1. Prerequisites
+
+- Node.js **18+** installed locally
+- Git installed
+- Your Next.js project code in a GitHub/GitLab/Bitbucket repository
+- Vercel account (for cloud deployment)
+- AWS EC2 instance (optional, if you plan to self-host)
+
+---
+
+## 2. Local Setup
+
+Clone your Next.js repo:
+
+```bash
+git clone https://github.com/raishudesu/renta-frontend.git
+cd renta-frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run in development mode:
+
+```bash
+npm run dev
+```
+
+Access at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 3. Configure Environment Variables
+
+Create a `.env.local` file in your project root:
+
+```bash
+NEXT_PUBLIC_API_URL=https://your-backend-api.com
+NEXT_PUBLIC_SHARED_SECRET=your-secret-if-needed
+NEXTAUTH_SECRET=your-nextauth-secret
+```
+
+👉 Variables prefixed with `NEXT_PUBLIC_` will be available in the frontend.
+👉 Do **not** commit `.env.local` to Git.
+
+---
+
+## 4. Deploy on Vercel (Recommended)
+
+1. Go to [https://vercel.com](https://vercel.com)
+2. Import your GitHub repo.
+3. Configure environment variables in **Vercel Project Settings → Environment Variables**.
+4. Deploy — Vercel will handle build & hosting.
+
+Your app will be available at:
+
+```
+https://your-app-name.vercel.app
+```
+
+---
+
+✅ That’s it — your Next.js frontend is now ready!
